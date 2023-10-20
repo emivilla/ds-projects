@@ -1,10 +1,14 @@
 from dash import Input, Output, State
+import dashboard.assets.utils as utils
+import dashboard.assets.constants as constants
 
 def get_callbacks(app):
-# Create tmp folder
-# @app.callback(
-#    Output("tmp-folder-name", "data"),
-#    Input("tmp-folder-name-garbage", "data")
-# )
-# def create_tmp_folder(fire):
-#     return utils.create_tmp_folder()
+
+    # Fit with polynomial of degree d where d is slider value
+    @app.callback(
+        Output("plot", "figure"),
+        Input("slider", "value"),
+        prevent_initial_call=True
+    )
+    def fit_with_polynomial_of_degree_d(d):
+         return utils.make_plot(constants.x, constants.y, degree=d)
