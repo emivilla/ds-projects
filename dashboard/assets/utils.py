@@ -26,6 +26,15 @@ def make_plot(x, y, degree=3):
     lr.fit(X, Y)
     y_pred = lr.predict(X)
 
+    # Title
+    if degree < 3:
+        quality_of_fit = "underfit :("
+    elif d == 3:
+        quality_of_fit = "perfect! :)"
+    else:
+        quality_of_fit = "overfit :("
+    title = f"Fit with polynomial of degree {degree}, {quality_of_fit}"
+
     # Return plot
     fig = go.Figure()
     fig.add_trace(go.Scattergl(x=x, y=y, mode='markers', name="y_true",
@@ -33,5 +42,5 @@ def make_plot(x, y, degree=3):
     fig.add_trace(go.Scattergl(x=x, y=y_pred, mode='lines', name="y_pred",
                                    hovertemplate='<extra></extra>y: %{y:.2f}<br>' + 'x: %{x:.2f}<br>'))
     fig.update_layout(xaxis_title="x", yaxis_title="y",
-                      title=f"Fit with polynomial of degree {degree}", title_x=0.5)
+                      title=title, title_x=0.5)
     return fig
