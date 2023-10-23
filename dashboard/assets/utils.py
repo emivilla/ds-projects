@@ -29,7 +29,7 @@ def make_plot(x, y, degree=3):
     # Title
     if degree < 3:
         quality_of_fit = "underfit :("
-    elif d == 3:
+    elif degree == 3:
         quality_of_fit = "perfect! :)"
     else:
         quality_of_fit = "overfit :("
