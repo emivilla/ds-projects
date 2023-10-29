@@ -1,15 +1,15 @@
-# ds-projects
+# ds-projects 
 
-*Last update: 23-10-2023*
+*Last update: 29-10-2023*
 
-### Intro
+### ⚛️ Intro
 Collection of data science projects aimed at practicing and improving my skills in the field.
 Project ideas are taken from Kaggle, Udemy, Coursera and material freely available on the internet.
 I try to reference all the code, courses and blogs I use to take inspiration and build my work on.
 I apologise for any missing reference or citation. For any complaint, need or curiosity, feel free 
 to contact me at the following e-mail address: villa.emilio1994@gmail.com .
 
-### list of projects
+### 📊 List of projects
 - **titanic**: a deep dive into the famous Kaggle competition *Titanic - Machine Learning from Disaster*
   (https://www.kaggle.com/competitions/titanic).
   The aim of the notebook is to perform *Data Mining* and *Feature Engineering* on the original dataset
