@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from functools import reduce
+import re
 
 from langchain.prompts import PromptTemplate
 from langchain.chat_models import ChatOpenAI
@@ -13,7 +14,7 @@ url = "https://en.wikipedia.org/wiki/Mario_Draghi"
 # Get HTML
 html = urlopen(url)
 
-# Get all paragraphs
+# Keep the first 50 paragraphs only
 soup = BeautifulSoup(html.read().decode('utf-8', 'ignore'), features='html.parser')
 raw_lst_p = soup.find_all("p")
 
@@ -22,9 +23,19 @@ lst_p = list(map(lambda x: x.text, raw_lst_p))
 lst_p = list(map(lambda x: x.replace("\n", " "), lst_p))
 text = reduce(lambda x, y: x+y, lst_p)
 
+# Remove references
+for s in re.findall("\[[0-9]+\]", text):
+    text = text.replace(s, "")
+
+# Be sure we are below the token limit
+length = len(text.split(" "))
+n = 2000
+if length > n:
+    text = reduce(lambda x, y: x+" "+y, text.split(" ")[:n])
+
 # Let's create a prompt template
 summary_template = """
-    given the text {information}, I want you to create a short summary.
+    given the text {information}, I want you to create a short joke of at most 50 words related to the content.
 """
 summary_prompt_template = PromptTemplate(
     input_variables=["information"],
