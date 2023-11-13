@@ -4,7 +4,7 @@ from dash import html, dcc
 import assets.constants as constants
 
 # Def dash register page
-dash.register_page(__name__, path="/", order=0)
+dash.register_page(__name__, path="/page-2", order=2)
 
 # Def layout
 layout = html.Div([
@@ -40,8 +40,7 @@ layout = html.Div([
             ),
             dbc.Col([
                 html.Center([
-                    html.H1("Welcome to Wiki-Joke!"),
-                    html.H6("Powered with \u2665 by Emilio Villa"),
+                    html.H1("WikiGPT in progress..."),
                     ], style=constants.HOME_CONTENT_STYLE
                 )
             ])
