@@ -74,6 +74,13 @@ layout = html.Div([
         ])
     ], fluid=True),
 
+    # Add blocking alert if given url is not correct
+    dcc.ConfirmDialog(
+        id="url-alert",
+        message="The provided URL does not respect the requirements. "
+                "Please use the URL of an English version of a Wikipedia page instead.",
+        displayed=False,
+    ),
 
 
 ])
