@@ -12,7 +12,7 @@ from langchain.chains import LLMChain
 # Def function to create two jokes with gtp given the url of a wikipedia page
 def make_jokes(
         url: str,
-        openai_api_key: str = "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",
+        openai_api_key: str,
 ):
     """
     Starting from the URL of an English Wikipedia page,
