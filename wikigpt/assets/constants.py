@@ -8,7 +8,7 @@ SIDEBAR_STYLE = {
 }
 
 HOME_CONTENT_STYLE = {
-    "marginTop": "20%",
+    "marginTop": "10%",
     "marginLeft": "40%",
     "marginRight": "10%",
 }
