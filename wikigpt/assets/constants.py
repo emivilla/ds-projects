@@ -22,12 +22,11 @@ FOOTER_STYLE = {
     "left": "2%",
     "bottom": 0,
     "width": "100%",
-    "text-align":"left"
+    "text-align": "left",
 }
 
 
 class OutputParser(BaseModel):
-
     jokes: List[str] = Field(description="Jokes about the content")
 
     def to_dict(self):

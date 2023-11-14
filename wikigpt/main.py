@@ -16,13 +16,13 @@ url = "https://en.wikipedia.org/wiki/Mario_Draghi"
 html = urlopen(url)
 
 # Keep the first 50 paragraphs only
-soup = BeautifulSoup(html.read().decode('utf-8', 'ignore'), features='html.parser')
+soup = BeautifulSoup(html.read().decode("utf-8", "ignore"), features="html.parser")
 raw_lst_p = soup.find_all("p")
 
 # Clean paragraphs
 lst_p = list(map(lambda x: x.text, raw_lst_p))
 lst_p = list(map(lambda x: x.replace("\n", " "), lst_p))
-text = reduce(lambda x, y: x+y, lst_p)
+text = reduce(lambda x, y: x + y, lst_p)
 
 # Remove references
 for s in re.findall("\[[0-9]+\]", text):
@@ -32,7 +32,7 @@ for s in re.findall("\[[0-9]+\]", text):
 length = len(text.split(" "))
 n = 2000
 if length > n:
-    text = reduce(lambda x, y: x+" "+y, text.split(" ")[:n])
+    text = reduce(lambda x, y: x + " " + y, text.split(" ")[:n])
 
 # Let's create a prompt template
 summary_template = """
@@ -43,7 +43,7 @@ summary_template = """
 summary_prompt_template = PromptTemplate(
     input_variables=["information"],
     template=summary_template,
-    partial_variables={"format_instructions": OUTPUT_PARSER.get_format_instructions()}
+    partial_variables={"format_instructions": OUTPUT_PARSER.get_format_instructions()},
 )
 
 # Create llm model

@@ -1,6 +1,4 @@
 import dash_bootstrap_components as dbc
-import time
-
 import openai.error
 from dash import Input, Output, State, dcc
 import re
@@ -8,7 +6,6 @@ import assets.utils as utils
 
 
 def get_callbacks(app):
-
     #########################
     # OPENAI API KEY        #
     #########################
@@ -17,7 +14,7 @@ def get_callbacks(app):
     @app.callback(
         Output("confirm-key-btn", "disabled"),
         Input("input-key", "value"),
-        prevent_initial_call=True
+        prevent_initial_call=True,
     )
     def activate_confirm_btn(text):
         if (text is None) | (text == ""):
@@ -29,7 +26,7 @@ def get_callbacks(app):
     @app.callback(
         Output("reset-key-btn", "disabled"),
         Input("current-key", "data"),
-        prevent_initial_call=True
+        prevent_initial_call=True,
     )
     def activate_reset_btn(text):
         if text is None:
@@ -49,7 +46,7 @@ def get_callbacks(app):
         State("current-key", "data"),
         Input("confirm-key-btn", "n_clicks"),
         Input("reset-key-btn", "n_clicks"),
-        prevent_initial_call=True
+        prevent_initial_call=True,
     )
     def set_key(input_key, current_key, con_btn, res_btn):
         if con_btn > 0:
@@ -67,7 +64,7 @@ def get_callbacks(app):
     @app.callback(
         Output("confirm-url-btn", "disabled"),
         Input("input-url", "value"),
-        prevent_initial_call=True
+        prevent_initial_call=True,
     )
     def activate_confirm_btn(text):
         if (text is None) | (text == ""):
@@ -79,7 +76,7 @@ def get_callbacks(app):
     @app.callback(
         Output("reset-url-btn", "disabled"),
         Input("input-url", "value"),
-        prevent_initial_call=True
+        prevent_initial_call=True,
     )
     def activate_reset_btn(text):
         if (text is None) | (text == ""):
@@ -91,7 +88,7 @@ def get_callbacks(app):
     @app.callback(
         Output("input-url", "value"),
         Input("reset-url-btn", "n_clicks"),
-        prevent_initial_call=True
+        prevent_initial_call=True,
     )
     def reset_url(fire):
         return None
@@ -105,7 +102,7 @@ def get_callbacks(app):
         State("input-url", "value"),
         State("current-key", "data"),
         Input("confirm-url-btn", "n_clicks"),
-        prevent_initial_call=True
+        prevent_initial_call=True,
     )
     def run_gpt(url, key, fire):
         # Check url points to an english version of a wikipedia page
@@ -126,9 +123,9 @@ def get_callbacks(app):
         output = Output()
         """
         output = dbc.Card(
-                    dbc.CardBody(
-                        dcc.Markdown(
-                            f"""
+            dbc.CardBody(
+                dcc.Markdown(
+                    f"""
                                 **GPT-3.5-TURBO** has come up with the following two **jokes**:
         
         
@@ -136,8 +133,9 @@ def get_callbacks(app):
         
                                 **2.** {output.jokes[1]}
                             """,
-                            style={"textAlign": "left"}
-                        )
-                    ), style={"marginTop": "10%"}
+                    style={"textAlign": "left"},
                 )
+            ),
+            style={"marginTop": "10%"},
+        )
         return output, False, False, False

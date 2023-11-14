@@ -12,9 +12,7 @@ app = Dash(
     __name__,
     external_stylesheets=[dbc.themes.MORPH, dbc.icons.FONT_AWESOME],
     use_pages=True,
-    meta_tags=[
-        {"name": "viewport", "content": "width=device-width, initial-scale=1"}
-    ]
+    meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}],
 )
 server = app.server
 
@@ -23,15 +21,14 @@ PORT = "8000"
 ADDRESS = "127.0.0.1"
 
 # Define app layout
-app.layout = dbc.Container([
-
-    # Store openai key
-    dcc.Store(id="current-key", data=None),
-
-    # Render pages
-    page_container
-
-])
+app.layout = dbc.Container(
+    [
+        # Store openai key
+        dcc.Store(id="current-key", data=None),
+        # Render pages
+        page_container,
+    ]
+)
 
 
 # Callbacks
@@ -45,7 +42,6 @@ def open_browser():
 
 # Run app
 if __name__ == "__main__":
-
     # Open browser after a couple of seconds at the address where the dash app is running
     Timer(2, open_browser).start()
 
