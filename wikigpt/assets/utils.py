@@ -18,6 +18,7 @@ def make_jokes(
     Starting from the URL of an English Wikipedia page,
     it returns two jokes related to the content of the page
     :param url: url of the Wikipedia page
+    :param openai_api_key: openai api key neeeded to run GPT-3.5-TURBO
     :return: List of jokes
     """
 
