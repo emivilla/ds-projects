@@ -51,3 +51,40 @@ def get_callbacks(app):
             return None, None, False, True, 0, 0
         else:
             pass
+
+    #########################
+    # WIKI-JOKE             #
+    #########################
+
+    # Activate confirm button
+    @app.callback(
+        Output("confirm-url-btn", "disabled"),
+        Input("input-url", "value"),
+        prevent_initial_call=True
+    )
+    def activate_confirm_btn(text):
+        if (text is None) | (text == ""):
+            return True
+        else:
+            return False
+
+    # Activate reset button
+    @app.callback(
+        Output("reset-url-btn", "disabled"),
+        Input("input-url", "value"),
+        prevent_initial_call=True
+    )
+    def activate_reset_btn(text):
+        if (text is None) | (text == ""):
+            return True
+        else:
+            return False
+
+    # Clear URL
+    @app.callback(
+        Output("input-url", "value"),
+        Input("reset-url-btn", "n_clicks"),
+        prevent_initial_call=True
+    )
+    def reset_url(fire):
+        return None

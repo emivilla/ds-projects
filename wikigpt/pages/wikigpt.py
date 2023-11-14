@@ -40,8 +40,30 @@ layout = html.Div([
             ),
             dbc.Col([
                 html.Center([
-                    html.H1("WikiGPT in progress..."),
-                    ], style=constants.HOME_CONTENT_STYLE
+                    html.H6("Input below the Wikipedia page URL"),
+                    dbc.Input(
+                        id="input-url",
+                        placeholder="Type url here...",
+                        type="text",
+                        style={"width": "100%"}
+                    ),
+                    html.Div([
+                        dbc.Button(
+                            "Delete URL",
+                            id="reset-url-btn",
+                            style={"width": "25%", "display": "inline-block"},
+                            disabled=True
+                        ),
+                        dcc.Markdown("""""", style={"width": "50%", "display": "inline-block"}),
+                        dbc.Button(
+                            "Do Magic!",
+                            id="confirm-url-btn",
+                            style={"width": "25%", "display": "inline-block"},
+                            disabled=True
+                        )
+                    ], style={"marginTop": "2.5%", "width": "90%", "display": "inline-block"}),
+                ], style=constants.HOME_CONTENT_STYLE
+
                 )
             ])
         ])
