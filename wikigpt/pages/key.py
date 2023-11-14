@@ -9,6 +9,10 @@ dash.register_page(__name__, path="/page-1", order=1)
 # Def layout
 layout = html.Div([
 
+    # Store openai key
+    dcc.Store(id="current-key", data=None),
+
+    # Layout
     dbc.Container([
         dbc.Row([
             html.Div(
@@ -40,11 +44,57 @@ layout = html.Div([
             ),
             dbc.Col([
                 html.Center([
-                    html.H1("OPENAI KEY in progress..."),
+                    html.H6("Input below your OPENAI API KEY:"),
+                    dbc.Input(
+                        id="input-key",
+                        placeholder="Type key here...",
+                        type="text",
+                        style={"width": "100%"}
+                    ),
+                    html.Div([
+                        dbc.Button(
+                            "Reset",
+                            id="reset-key-btn",
+                            style={"width": "20%", "display": "inline-block"},
+                            disabled=True
+                        ),
+                        dcc.Markdown("""""", style={"width": "60%", "display": "inline-block",}),
+                        dbc.Button(
+                            "Confirm",
+                            id="confirm-key-btn",
+                            style={"width": "20%", "display": "inline-block"},
+                            disabled=True
+                        )
+                    ], style={"marginTop": "2.5%", "width": "90%", "display": "inline-block"}),
                     ], style=constants.HOME_CONTENT_STYLE
+
                 )
             ])
         ])
-    ], fluid=True)
+    ], fluid=True),
+
+    # Set key confirmation given as a toast in top right corner
+    dbc.Toast(
+        children="OPENAI API KEY set successfully",
+        id="confirm-toast",
+        header="Set Key",
+        is_open=False,
+        dismissable=True,
+        duration=4000,
+        icon="info",
+        style={"position": "fixed", "top": 20, "right": 50, "width": 250},
+    ),
+
+    # Reset key confirmation given as a toast in top left corner
+    dbc.Toast(
+        children="OPENAI API KEY reset successfully",
+        id="reset-toast",
+        header="Reset Key",
+        is_open=False,
+        dismissable=True,
+        duration=4000,
+        icon="info",
+        style={"position": "fixed", "top": 20, "right": 50, "width": 250},
+    ),
 
 ])

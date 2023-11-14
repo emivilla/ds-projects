@@ -1,2 +1,53 @@
+from dash import Input, Output, State
+
+
 def get_callbacks(app):
-    pass
+
+    #########################
+    # OPENAI API KEY        #
+    #########################
+
+    # Activate confirm button
+    @app.callback(
+        Output("confirm-key-btn", "disabled"),
+        Input("input-key", "value"),
+        prevent_initial_call=True
+    )
+    def activate_confirm_btn(text):
+        if (text is None) | (text == ""):
+            return True
+        else:
+            return False
+
+    # Activate reset button
+    @app.callback(
+        Output("reset-key-btn", "disabled"),
+        Input("current-key", "data"),
+        prevent_initial_call=True
+    )
+    def activate_reset_btn(text):
+        if text is None:
+            return True
+        else:
+            return False
+
+    # Set / Reset OPENAI API KEY
+    @app.callback(
+        Output("current-key", "data"),
+        Output("input-key", "value"),
+        Output("confirm-toast", "is_open"),
+        Output("reset-toast", "is_open"),
+        Output("confirm-key-btn", "n_clicks"),
+        Output("reset-key-btn", "n_clicks"),
+        State("input-key", "value"),
+        Input("confirm-key-btn", "n_clicks"),
+        Input("reset-key-btn", "n_clicks"),
+        prevent_initial_call=True
+    )
+    def set_key(key, con_btn, res_btn):
+        if con_btn > 0:
+            return key, key, True, False, 0, 0
+        elif res_btn > 0:
+            return None, None, False, True, 0, 0
+        else:
+            pass
