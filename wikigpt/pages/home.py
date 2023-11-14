@@ -42,6 +42,31 @@ layout = html.Div([
                 html.Center([
                     html.H1("Welcome to Wiki-Joke!"),
                     html.H6("Powered with \u2665 by Emilio Villa"),
+                    dbc.Card(
+                        dbc.CardBody(
+                            dcc.Markdown(
+                                f"""
+                                **Instructions**:
+
+
+                                **1.** Go the *Insert your OPENAI API KEY* page and insert your openai api key in the input
+                                       form. Press *Confirm* button to save the key for further usage.
+
+                                **2.** Then move to the *Have fun!* page and insert the URL of an english version of a 
+                                       Wikipedia page in the input form. Press *Do Magic!* button to generate
+                                       two jokes with GPT-3.5-TURBO based on the content of the Wikipedia page.
+                                   
+                                   
+                                **Important:** Please note that using GPT-3.5-TURBO is not for free. 
+                                Be aware of this and check billing and usage in your openai account profile settings.  
+                                
+                                
+                                **Enjoy!**
+                                """,
+                                style={"textAlign": "left"}
+                            )
+                        ), style={"marginTop": "5%"}
+                    )
                     ], style=constants.HOME_CONTENT_STYLE
                 )
             ])
