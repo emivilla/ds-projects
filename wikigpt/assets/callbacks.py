@@ -1,6 +1,7 @@
 import dash_bootstrap_components as dbc
 import time
 from dash import Input, Output, State, dcc
+import re
 import assets.utils as utils
 
 
@@ -95,28 +96,33 @@ def get_callbacks(app):
     # Run GPT
     @app.callback(
         Output("output", "children"),
+        Output("url-alert", "displayed"),
         State("input-url", "value"),
         Input("confirm-url-btn", "n_clicks"),
         prevent_initial_call=True
     )
     def run_gpt(url, fire):
+        # Check url points to an english version of a wikipedia page
+        if re.match("https://en.wikipedia.org/wiki/", url) is None:
+            return [], True
         #output = utils.make_jokes(url=url)
         time.sleep(5)
         class Output:
             jokes = ["joke 1", "joke 2"]
         output = Output()
-        return dbc.Card(
-            dbc.CardBody(
-                dcc.Markdown(
-                    f"""
-                        **GPT-3.5-TURBO** has come up with the following two **jokes**:
-
-
-                        1. {output.jokes[0]}
-
-                        2. {output.jokes[1]}
-                    """,
-                    style={"textAlign": "left"}
+        output = dbc.Card(
+                    dbc.CardBody(
+                        dcc.Markdown(
+                            f"""
+                                **GPT-3.5-TURBO** has come up with the following two **jokes**:
+        
+        
+                                **1.** {output.jokes[0]}
+        
+                                **2.** {output.jokes[1]}
+                            """,
+                            style={"textAlign": "left"}
+                        )
+                    ), style={"marginTop": "10%"}
                 )
-            ), style={"marginTop": "10%"}
-        )
+        return output, False
