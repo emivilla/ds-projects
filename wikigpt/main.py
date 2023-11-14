@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from functools import reduce
+from assets.constants import OUTPUT_PARSER
 import re
 
 from langchain.prompts import PromptTemplate
@@ -35,11 +36,14 @@ if length > n:
 
 # Let's create a prompt template
 summary_template = """
-    given the text {information}, I want you to create a short joke of at most 50 words related to the content.
+    given the text {information}, I want you to create two short jokes of at most 
+    50 words each related to the content.
+    \n{format_instructions}
 """
 summary_prompt_template = PromptTemplate(
     input_variables=["information"],
     template=summary_template,
+    partial_variables={"format_instructions": OUTPUT_PARSER.get_format_instructions()}
 )
 
 # Create llm model
@@ -50,4 +54,4 @@ chain = LLMChain(llm=llm, prompt=summary_prompt_template)
 
 # Run
 result = chain.run(information=text)
-print(result)
+print(OUTPUT_PARSER.parse(result))

@@ -1,3 +1,7 @@
+from langchain.output_parsers import PydanticOutputParser
+from pydantic import BaseModel, Field
+from typing import List
+
 SIDEBAR_STYLE = {
     "position": "fixed",
     "top": 0,
@@ -20,3 +24,14 @@ FOOTER_STYLE = {
     "width": "100%",
     "text-align":"left"
 }
+
+
+class OutputParser(BaseModel):
+
+    jokes: List[str] = Field(description="Jokes about the content")
+
+    def to_dict(self):
+        return {"jokes": self.jokes}
+
+
+OUTPUT_PARSER = PydanticOutputParser(pydantic_object=OutputParser)

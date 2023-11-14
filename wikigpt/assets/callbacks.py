@@ -1,4 +1,7 @@
-from dash import Input, Output, State
+import dash_bootstrap_components as dbc
+import time
+from dash import Input, Output, State, dcc
+import assets.utils as utils
 
 
 def get_callbacks(app):
@@ -88,3 +91,32 @@ def get_callbacks(app):
     )
     def reset_url(fire):
         return None
+
+    # Run GPT
+    @app.callback(
+        Output("output", "children"),
+        State("input-url", "value"),
+        Input("confirm-url-btn", "n_clicks"),
+        prevent_initial_call=True
+    )
+    def run_gpt(url, fire):
+        #output = utils.make_jokes(url=url)
+        time.sleep(5)
+        class Output:
+            jokes = ["joke 1", "joke 2"]
+        output = Output()
+        return dbc.Card(
+            dbc.CardBody(
+                dcc.Markdown(
+                    f"""
+                        **GPT-3.5-TURBO** has come up with the following two **jokes**:
+
+
+                        1. {output.jokes[0]}
+
+                        2. {output.jokes[1]}
+                    """,
+                    style={"textAlign": "left"}
+                )
+            ), style={"marginTop": "10%"}
+        )

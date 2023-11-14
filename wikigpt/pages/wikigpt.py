@@ -62,11 +62,18 @@ layout = html.Div([
                             disabled=True
                         )
                     ], style={"marginTop": "2.5%", "width": "90%", "display": "inline-block"}),
+                    dcc.Markdown(""""""),
+                    dbc.Spinner(
+                        html.Div(id="output"),
+                        spinner_style={"marginTop": "30%"}
+                    )
                 ], style=constants.HOME_CONTENT_STYLE
 
                 )
             ])
         ])
-    ], fluid=True)
+    ], fluid=True),
+
+
 
 ])
