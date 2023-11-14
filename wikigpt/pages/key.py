@@ -9,9 +9,6 @@ dash.register_page(__name__, path="/page-1", order=1)
 # Def layout
 layout = html.Div([
 
-    # Store openai key
-    dcc.Store(id="current-key", data=None),
-
     # Layout
     dbc.Container([
         dbc.Row([
@@ -54,6 +51,7 @@ layout = html.Div([
                     html.Div([
                         dbc.Button(
                             "Reset",
+                            n_clicks=0,
                             id="reset-key-btn",
                             style={"width": "20%", "display": "inline-block"},
                             disabled=True
@@ -61,6 +59,7 @@ layout = html.Div([
                         dcc.Markdown("""""", style={"width": "60%", "display": "inline-block",}),
                         dbc.Button(
                             "Confirm",
+                            n_clicks=0,
                             id="confirm-key-btn",
                             style={"width": "20%", "display": "inline-block"},
                             disabled=True
