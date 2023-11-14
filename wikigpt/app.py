@@ -25,6 +25,10 @@ ADDRESS = "127.0.0.1"
 # Define app layout
 app.layout = dbc.Container([
 
+    # Store openai key
+    dcc.Store(id="current-key", data=None),
+
+    # Render pages
     page_container
 
 ])
