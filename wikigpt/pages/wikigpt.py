@@ -50,6 +50,7 @@ layout = html.Div([
                     html.Div([
                         dbc.Button(
                             "Delete URL",
+                            n_clicks=0,
                             id="reset-url-btn",
                             style={"width": "25%", "display": "inline-block"},
                             disabled=True
@@ -57,6 +58,7 @@ layout = html.Div([
                         dcc.Markdown("""""", style={"width": "50%", "display": "inline-block"}),
                         dbc.Button(
                             "Do Magic!",
+                            n_clicks=0,
                             id="confirm-url-btn",
                             style={"width": "25%", "display": "inline-block"},
                             disabled=True
@@ -82,5 +84,21 @@ layout = html.Div([
         displayed=False,
     ),
 
+    # Add blocking alert if provided openai api key is incorrect
+    dcc.ConfirmDialog(
+        id="key-alert",
+        message="The provided OPENAI API KEY is incorrect. "
+                "Please check you copied it correctly from https://platform.openai.com/account/api-keys.",
+        displayed=False,
+    ),
+
+    # Add blocking alert advising to contact developer because of unkown issues
+    dcc.ConfirmDialog(
+        id="general-alert",
+        message="Something went wrong but we do not really know what. "
+                "Please open an issue on GitHub or contact the maintainers of the app directly. "
+                "Thank you.",
+        displayed=False,
+    ),
 
 ])
