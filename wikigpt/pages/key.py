@@ -44,7 +44,7 @@ layout = html.Div([
             ),
             dbc.Col([
                 html.Center([
-                    html.H6("Input below your OPENAI API KEY:"),
+                    html.H6("Input below your OPENAI API KEY"),
                     dbc.Input(
                         id="input-key",
                         placeholder="Type key here...",
