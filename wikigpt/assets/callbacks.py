@@ -1,5 +1,7 @@
 import dash_bootstrap_components as dbc
 import time
+
+import openai.error
 from dash import Input, Output, State, dcc
 import re
 import assets.utils as utils
@@ -37,24 +39,25 @@ def get_callbacks(app):
 
     # Set / Reset OPENAI API KEY
     @app.callback(
-        Output("current-key", "data"),
         Output("input-key", "value"),
+        Output("current-key", "data"),
         Output("confirm-toast", "is_open"),
         Output("reset-toast", "is_open"),
         Output("confirm-key-btn", "n_clicks"),
         Output("reset-key-btn", "n_clicks"),
         State("input-key", "value"),
+        State("current-key", "data"),
         Input("confirm-key-btn", "n_clicks"),
         Input("reset-key-btn", "n_clicks"),
         prevent_initial_call=True
     )
-    def set_key(key, con_btn, res_btn):
+    def set_key(input_key, current_key, con_btn, res_btn):
         if con_btn > 0:
-            return key, key, True, False, 0, 0
+            return input_key, input_key, True, False, 0, 0
         elif res_btn > 0:
             return None, None, False, True, 0, 0
         else:
-            pass
+            return current_key, current_key, False, False, 0, 0
 
     #########################
     # WIKI-JOKE             #
@@ -97,19 +100,31 @@ def get_callbacks(app):
     @app.callback(
         Output("output", "children"),
         Output("url-alert", "displayed"),
+        Output("key-alert", "displayed"),
+        Output("general-alert", "displayed"),
         State("input-url", "value"),
+        State("current-key", "data"),
         Input("confirm-url-btn", "n_clicks"),
         prevent_initial_call=True
     )
-    def run_gpt(url, fire):
+    def run_gpt(url, key, fire):
         # Check url points to an english version of a wikipedia page
         if re.match("https://en.wikipedia.org/wiki/", url) is None:
-            return [], True
-        #output = utils.make_jokes(url=url)
+            return [], True, False, False
+        try:
+            output = utils.make_jokes(url=url, openai_api_key=key)
+        # Raise exception if provided openai api key is incorrect
+        except openai.error.AuthenticationError:
+            return [], False, True, False
+        # Raise exception if something else goes wrong
+        except:
+            return [], False, False, True
+        """
         time.sleep(5)
         class Output:
             jokes = ["joke 1", "joke 2"]
         output = Output()
+        """
         output = dbc.Card(
                     dbc.CardBody(
                         dcc.Markdown(
@@ -125,4 +140,4 @@ def get_callbacks(app):
                         )
                     ), style={"marginTop": "10%"}
                 )
-        return output, False
+        return output, False, False, False
