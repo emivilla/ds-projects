@@ -1,18 +1,18 @@
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from functools import reduce
-from assets.constants import OUTPUT_PARSER
 import re
 
-from langchain.prompts import PromptTemplate
+from langchain.prompts import ChatPromptTemplate
 from langchain.chat_models import ChatOpenAI
-from langchain.chains import LLMChain
+from langchain.output_parsers import ResponseSchema
+from langchain.output_parsers import StructuredOutputParser
 
 
 # Def function to create two jokes with gtp given the url of a wikipedia page
 def make_jokes(
-    url: str,
-    openai_api_key: str,
+        url: str,
+        openai_api_key: str,
 ):
     """
     Starting from the URL of an English Wikipedia page,
@@ -44,30 +44,35 @@ def make_jokes(
     if length > n:
         text = reduce(lambda x, y: x + " " + y, text.split(" ")[:n])
 
+    # Let's define the output parser
+    response_schemas = [
+        ResponseSchema(name="joke1", description="First joke"),
+        ResponseSchema(name="joke2", description="Second joke"),
+    ]
+    output_parser = StructuredOutputParser.from_response_schemas(response_schemas)
+    format_instructions = output_parser.get_format_instructions()
+
     # Let's create a prompt template
-    summary_template = """
+    template = """
         given the text {information}, I want you to create two short jokes of at most 
         50 words each related to the content.
-        \n{format_instructions}
+
+        Format the output as a python dictionary with the following keys:
+        joke1
+        joke2
+
+        {format_instructions}
     """
-    summary_prompt_template = PromptTemplate(
-        input_variables=["information"],
-        template=summary_template,
-        partial_variables={
-            "format_instructions": OUTPUT_PARSER.get_format_instructions()
-        },
-    )
+    prompt_template = ChatPromptTemplate.from_template(template)
 
     # Create llm model
     llm = ChatOpenAI(
-        temperature=0, model_name="gpt-3.5-turbo", openai_api_key=openai_api_key
+        temperature=1, model_name="gpt-3.5-turbo", openai_api_key=openai_api_key
     )
 
-    # Put everything together
-    chain = LLMChain(llm=llm, prompt=summary_prompt_template)
-
-    # Run
-    result = chain.run(information=text)
+    # Run llm model
+    messages = prompt_template.format_messages(information=text, format_instructions=format_instructions)
+    response = llm(messages)
 
     # Return
-    return OUTPUT_PARSER.parse(result)
+    return output_parser.parse(response.content)
