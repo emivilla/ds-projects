@@ -1,11 +1,8 @@
 import webbrowser
 from threading import Timer
-
-from dash import Dash, html, dcc, page_registry, page_container
+from dash import Dash, dcc, page_container
 import dash_bootstrap_components as dbc
-
 from assets import callbacks
-from assets import constants
 
 # Set app style
 app = Dash(

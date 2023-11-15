@@ -108,6 +108,8 @@ def get_callbacks(app):
         # Check url points to an english version of a wikipedia page
         if re.match("https://en.wikipedia.org/wiki/", url) is None:
             return [], True, False, False
+        if key is None:
+            return [], False, True, False
         try:
             output = utils.make_jokes(url=url, openai_api_key=key)
         # Raise exception if provided openai api key is incorrect
@@ -116,23 +118,17 @@ def get_callbacks(app):
         # Raise exception if something else goes wrong
         except:
             return [], False, False, True
-        """
-        time.sleep(5)
-        class Output:
-            jokes = ["joke 1", "joke 2"]
-        output = Output()
-        """
         output = dbc.Card(
             dbc.CardBody(
                 dcc.Markdown(
                     f"""
-                                **GPT-3.5-TURBO** has come up with the following two **jokes**:
-        
-        
-                                **1.** {output.jokes[0]}
-        
-                                **2.** {output.jokes[1]}
-                            """,
+                        **GPT-3.5-TURBO** has come up with the following two **jokes**:
+
+
+                        **1.** {output.jokes[0]}
+
+                        **2.** {output.jokes[1]}
+                    """,
                     style={"textAlign": "left"},
                 )
             ),
