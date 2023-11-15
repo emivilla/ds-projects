@@ -77,7 +77,7 @@ layout = html.Div(
                                         dbc.Input(
                                             id="input-key",
                                             placeholder="Type key here...",
-                                            type="text",
+                                            type="password",
                                             style={"width": "100%"},
                                         ),
                                         html.Div(

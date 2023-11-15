@@ -76,7 +76,7 @@ layout = html.Div(
                                         dbc.Input(
                                             id="input-url",
                                             placeholder="Type url here...",
-                                            type="text",
+                                            type="url",
                                             style={"width": "100%"},
                                         ),
                                         html.Div(
